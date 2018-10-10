@@ -2,7 +2,7 @@ class Api::V1::SessionsController < ApplicationController
   # Used to login a user after a login request is recieved
   def login
     # Find the user by email in the database.
-    @user = User.find_by(email: session_params[:email])
+    @user = User.find_by(email_address: session_params[:email_address])
 
     # If the user exists and the password is correct.
     # Return the json with nessesary information.
@@ -21,21 +21,6 @@ class Api::V1::SessionsController < ApplicationController
 
   # Used to create a user after a signup request in recieved
   def signup
-    # Check if the user with that email account is already being used.
-    @user = User.find_by(email_address: session_params[:email_address])
-
-    # If the user does exist. Send JSON of an error message.
-    if @user
-      message = "An account with the email was already created"
-      render json: {message: message}
-    end
-
-    # If the submited passwords do not match. Send JSON of error message.
-    if session_params[:password] != session_params[:password_confirmation]
-      message = "Passwords must match"
-      render json: {message: message}
-    end
-
     # Create a user with the given parameters
     @user = User.new(
       name: session_params[:name],
@@ -43,12 +28,28 @@ class Api::V1::SessionsController < ApplicationController
       password: session_params[:password]
     )
 
-    # Create a token with the user's id. Send JSON with required information
-    if @user.save
+    # If the email is used. Send JSON error message.
+    if User.find_by(email_address: session_params[:email_address])
+      error = "An account with the email address was already created."
+      render json: {error: error}
+
+    # If the submited passwords do not match. Send JSON error message.
+    elsif session_params[:password] != session_params[:password_confirmation]
+      error = "Passwords must match."
+      render json: {error: error}
+
+    # Create token with user id. Return JSON information.
+    elsif @user.save
       token = issue_token({user_id: @user.id})
       render json: {user: @user, token: token}
+
+    # If signup fails. Send JSON error message.
+    else
+      error = "Error signing up."
+      render json: {error: error}
     end
   end
+
 
 
   # Used to login a user after a login request with a token in recieved
@@ -70,8 +71,9 @@ class Api::V1::SessionsController < ApplicationController
 
   private
 
-  # Use strong parameters for api security
+
+  # Use strong parameters for api security.
   def session_params
-    require(:session).permit(:name, :email_address, :password, :password_confirmation)
+    params.require(:session).permit(:name, :email_address, :password, :password_confirmation)
   end
 end
