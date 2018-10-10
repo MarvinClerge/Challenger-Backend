@@ -8,4 +8,5 @@ Rails.application.routes.draw do
 
   # Challenge routes
   get "/challenges", to: "challenges#index"
+  get "/challenge/:id", to: "challenges#show"
 end

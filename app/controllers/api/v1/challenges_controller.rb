@@ -1,21 +1,32 @@
 class Api::V1::ChallengesController < ApplicationController
-  # Used to provide information on all challenges when requested.
+  # Used to provide information on all challenges.
   def index
-    # Call restructure_challenge fuction with all challenges.
-    @challenges = restructure_challenge(Challenge.all)
-    # Return JSON with required information.
+    # Restructure challenges and return as JSON.
+    @challenges = restructure_challenges(Challenge.all)
     render json: {challenges: @challenges}
   end
 
+  # Used to provide information on single challenge.
+  def show
+    # Find the challenge in database to see if it exsits.
+    @challenge = Challenge.find(params[:id])
 
-  # Used to change Challenges from ActiveRecord to hash -
-  # - that includes the challenge's likes and user_challenges.
-  def restructure_challenge(challenges)
-    # Collector array to store restructured challenges.
+    if @challenge
+      # Restructure challenge and return as JSON.
+      @challenge = restructure_challenge(@challenge)
+      render json: {challenge: @challenge}
+    else
+      # Return JSON with error message.
+      error = "Challenge with that id does not exsits"
+      render json: {error: error}
+    end
+  end
+
+  # Used to change all challenges to hashes.
+  # Adds challenge's likes and user_challenges to hash.
+  def restructure_challenges(challenges)
     challenge_array = []
 
-    # Iterate through each challenge. Create hash with challenge information.
-    # Push hash into collector array.
     challenges.each do |challenge|
       challenge_array.push({
         name: challenge.name,
@@ -28,7 +39,19 @@ class Api::V1::ChallengesController < ApplicationController
       })
     end
 
-    # Return the collector array of restructured challenges.
     return challenge_array
+  end
+
+  # Used to change single challenge to hash for the show route.
+  # Adds challenge's likes to hash.
+  def restructure_challenge(challenge)
+    return {
+      name: challenge.name,
+      description: challenge.description,
+      category: challenge.category,
+      content: challenge.content,
+      test: challenge.test,
+      likes: challenge.likes.count
+    }
   end
 end
