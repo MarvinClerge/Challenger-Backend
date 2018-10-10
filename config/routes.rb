@@ -14,6 +14,10 @@ Rails.application.routes.draw do
 
       # UserChallenge routes
       post "/complete", to: "user_challenges#create"
+
+      #Like routes
+      post "/like", to: "likes#create"
+      delete "/like", to: "likes#destroy"
     end
   end
 
