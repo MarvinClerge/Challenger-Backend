@@ -10,7 +10,15 @@ class Api::V1::SessionsController < ApplicationController
     if @user && @user.authenticate(session_params[:password])
       # Create a token with the user's id and send json.
       token = issue_token({user_id: @user.id})
-      render json: {user: @user, token: @token}
+
+      # Create new user hash to avoid sending password_digest
+      user = {
+        id: @user.id,
+        name: @user.name,
+        email_address: @user.email_address
+      }
+
+      render json: {user: user, token: @token}
     else
       # Send json with error message
       message = "Invalid Login"
@@ -41,7 +49,15 @@ class Api::V1::SessionsController < ApplicationController
     # Create token with user id. Return JSON information.
     elsif @user.save
       token = issue_token({user_id: @user.id})
-      render json: {user: @user, token: token}
+
+      # Create new user hash to avoid sending password_digest
+      user = {
+        id: @user.id,
+        name: @user.name,
+        email_address: @user.email_address
+      }
+
+      render json: {user: user, token: token}
 
     # If signup fails. Send JSON error message.
     else
@@ -59,8 +75,15 @@ class Api::V1::SessionsController < ApplicationController
     @user = current_user
 
     if @user
+      # Create new user hash to avoid sending password_digest
+      user = {
+        id: @user.id,
+        name: @user.name,
+        email_address: @user.email_address
+      }
+
       # If the user exists. Send JSON of required information.
-      render json: {user: @user}
+      render json: {user: user}
     else
       # If the user does not exist. Send JSON of error message.
       error_message = "Invalid user or token"
