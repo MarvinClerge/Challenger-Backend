@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#login";
   post "/signup", to: "sessions#signup";
   get "/current", to: "sessions#get_current_user";
+
+  # Challenge routes
+  get "/challenges", to: "challenges#index"
 end
