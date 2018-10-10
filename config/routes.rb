@@ -11,6 +11,9 @@ Rails.application.routes.draw do
       # Challenge routes
       get "/challenges", to: "challenges#index"
       get "/challenge/:id", to: "challenges#show"
+
+      # UserChallenge routes
+      post "/complete", to: "user_challenges#create"
     end
   end
 
