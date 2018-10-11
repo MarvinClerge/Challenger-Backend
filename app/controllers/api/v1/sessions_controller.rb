@@ -21,8 +21,8 @@ class Api::V1::SessionsController < ApplicationController
       render json: {user: user, token: @token}
     else
       # Send json with error message
-      message = "Invalid Login"
-      render json: {message: message}
+      error = "Invalid Login"
+      render json: {error: message}
     end
   end
 

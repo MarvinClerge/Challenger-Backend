@@ -19,11 +19,13 @@ Challenge.destroy_all
   User.create(name: Faker::Name.name, password: "moon")
 end
 
+categories = ["easy", "intermediate", "hard"]
+
 10.times do
   Challenge.create(
     name: Faker::Company.name,
-    description: "this desc",
-    category: 'ca',
+    description: Faker::GameOfThrones.quote,
+    category: categories[rand(0..2)],
     content: 'co',
     test: 'te'
   )
