@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get "/challenge/:id", to: "challenges#show"
 
       # UserChallenge routes
+      get "/user_challenge", to: "user_challenges#show"
       post "/complete", to: "user_challenges#create"
 
       #Like routes
