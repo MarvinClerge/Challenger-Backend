@@ -1,7 +1,7 @@
-class Api::V1::UserChallengeController < ApplicationController
+class Api::V1::UserChallengesController < ApplicationController
   def show
-    user_id = user_challenge_params[:user_id]
-    challenge_id = user_challenge_params[:challenge_id]
+    user_id = params[:user_id]
+    challenge_id = params[:challenge_id]
     @user_challenge = UserChallenge.find_by(user_id: user_id, challenge_id: challenge_id)
 
     if @user_challenge
@@ -12,10 +12,10 @@ class Api::V1::UserChallengeController < ApplicationController
     end
   end
 
-  
+
   def create
     @user_challenge = UserChallenge.new(
-      user: User.find(user_challenge_params[:user_id])
+      user: User.find(user_challenge_params[:user_id]),
       challenge: User.find(user_challenge_params[:challenge_id])
     )
 
