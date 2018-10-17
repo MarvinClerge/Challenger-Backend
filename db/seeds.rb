@@ -15,8 +15,20 @@ UserChallenge.destroy_all
 User.destroy_all
 Challenge.destroy_all
 
-5.times do
-  User.create(name: Faker::Name.name, password: "moon")
+User.create(
+  name: "MegaMoonManMarvin94",
+  email_address: "marvin",
+  password: "moon"
+)
+p "Marvin account created\n"
+
+10.times do
+  User.create(
+    name: Faker::Name.name,
+    email_address: Faker::LeagueOfLegends.champion,
+    password: "moon"
+  )
+  p "User Created\n"
 end
 
 categories = ["easy", "intermediate", "hard"]
@@ -29,6 +41,7 @@ categories = ["easy", "intermediate", "hard"]
     content: 'co',
     test: 'te'
   )
+  p "Challenge Created"
 end
 
 20.times do
@@ -36,6 +49,7 @@ end
     user_id: rand(User.all.count),
     challenge_id: rand(Challenge.all.count)
   )
+  p "UserChallenge Created\n"
 end
 
 20.times do
@@ -43,4 +57,5 @@ end
     user_id: rand(User.all.count),
     challenge_id: rand(Challenge.all.count)
   )
+  p "Like Created\n"
 end

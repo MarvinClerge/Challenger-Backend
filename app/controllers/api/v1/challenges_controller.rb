@@ -34,7 +34,6 @@ class Api::V1::ChallengesController < ApplicationController
         category: challenge.category,
         content: challenge.content,
         test: challenge.test,
-        likes: challenge.likes.count,
         user_challenges: challenge.user_challenges.count
       })
     end

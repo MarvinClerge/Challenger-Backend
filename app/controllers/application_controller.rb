@@ -36,7 +36,7 @@ class ApplicationController < ActionController::API
   end
 
   def secret
-    'megamoonmooman'
+    'pencil'
   end
 
   def algorithm

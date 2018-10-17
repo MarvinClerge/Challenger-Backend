@@ -9,7 +9,7 @@ class Api::V1::SessionsController < ApplicationController
 
     if @user && @user.authenticate(session_params[:password])
       # Create a token with the user's id and send json.
-      token = issue_token({user_id: @user.id})
+      @token = issue_token({user_id: @user.id})
 
       # Create new user hash to avoid sending password_digest
       user = {
@@ -22,7 +22,7 @@ class Api::V1::SessionsController < ApplicationController
     else
       # Send json with error message
       error = "Invalid Login"
-      render json: {error: message}
+      render json: {error: error}
     end
   end
 

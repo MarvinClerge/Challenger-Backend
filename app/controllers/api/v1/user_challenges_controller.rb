@@ -16,7 +16,7 @@ class Api::V1::UserChallengesController < ApplicationController
   def create
     @user_challenge = UserChallenge.new(
       user: User.find(user_challenge_params[:user_id]),
-      challenge: User.find(user_challenge_params[:challenge_id])
+      challenge: Challenge.find(user_challenge_params[:challenge_id])
     )
 
     if @user_challenge.save
