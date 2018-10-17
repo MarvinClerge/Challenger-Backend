@@ -49,8 +49,7 @@ class Api::V1::ChallengesController < ApplicationController
       description: challenge.description,
       category: challenge.category,
       content: challenge.content,
-      test: challenge.test,
-      likes: challenge.likes.count
+      test: challenge.test
     }
   end
 end
