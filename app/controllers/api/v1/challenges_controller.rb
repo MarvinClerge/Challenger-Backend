@@ -31,7 +31,6 @@ class Api::V1::ChallengesController < ApplicationController
       challenge_array.push({
         name: challenge.name,
         description: challenge.description,
-        category: challenge.category,
         content: challenge.content,
         test: challenge.test,
         user_challenges: challenge.user_challenges.count
@@ -47,7 +46,6 @@ class Api::V1::ChallengesController < ApplicationController
     return {
       name: challenge.name,
       description: challenge.description,
-      category: challenge.category,
       content: challenge.content,
       test: challenge.test
     }

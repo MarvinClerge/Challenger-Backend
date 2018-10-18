@@ -1,61 +1,108 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
-
 require 'faker'
-
-Like.destroy_all
-UserChallenge.destroy_all
-
-User.destroy_all
-Challenge.destroy_all
 
 User.create(
   name: "MegaMoonManMarvin94",
   email_address: "marvin",
   password: "moon"
 )
-p "Marvin account created\n"
 
-10.times do
+p "*"*30
+p "Marvin account created"
+
+30.times do
   User.create(
     name: Faker::Name.name,
     email_address: Faker::LeagueOfLegends.champion,
     password: "moon"
   )
-  p "User Created\n"
 end
+p "Dummy users created"
 
-categories = ["easy", "intermediate", "hard"]
+# Challenges
+# 1
+Challenge.create(
+  name: "Extraction",
+  description: "Extract the first 4 characters from the string.",
+  content: "// Robin Singh\n",
+  test: "Robi"
+)
 
-10.times do
-  Challenge.create(
-    name: Faker::Company.name,
-    description: Faker::GameOfThrones.quote,
-    category: categories[rand(0..2)],
-    content: 'co',
-    test: 'te'
+# 2
+Challenge.create(
+  name: "Abbreviation",
+  description: "Convert the string into an abbreviated form.",
+  content: "// Robin Singh -> Robin S.\n",
+  test: "Robin S."
+)
+
+# 3
+Challenge.create(
+  name: "Protected Emails",
+  description: "Only show the first five letters of the email address",
+  content: "// robin_singh@example.com -> robin...@example.com\n",
+  test: "robin...@example.com"
+)
+
+# 4
+Challenge.create(
+  name: "Parametrized Strings",
+  description: "Parameterize the given string.",
+  content: "// Robin Singh from USA. -> robin-singh-from-usa\n",
+  test: "robin-singh-from-usa"
+)
+
+# 6
+Challenge.create(
+  name: "Capitalization",
+  description: "Capitalize the first letter of the string",
+  content: "// js string exercises\n",
+  test: "Js String Exercises"
+)
+
+# 7
+Challenge.create(
+  name: "Capitalization 2",
+  description: "Capitalize the first letter of each word in the string.",
+  content: "// js string exercises\n",
+  test: "Js String Exercises"
+)
+
+# 8
+Challenge.create(
+  name: "Reversed Strigns",
+  description: "Convert the upper case letters to lower case, and lower case letters to upper case.",
+  content: "// AaBbc\n",
+  test: "aAbBC"
+)
+
+# 9
+Challenge.create(
+  name: "Camel Casing",
+  description: "Convert the given string into camel case",
+  content: "// JavaScript exercises\n",
+  test: "JavaScriptExercises"
+)
+
+# 10
+Challenge.create(
+  name: "Snake Case Conversion",
+  description: "Convert the given camel cased string into snake case",
+  content: "// JavaScriptExercises\n",
+  test: "javaScript_exercises"
+)
+
+p "Challenges created"
+
+user_count = User.all.count
+challenge_count = Challenge.all.count
+
+40.times do
+  UserChallenge.find_or_create_by(
+    user_id: rand(1..user_count),
+    challenge_id: rand(1..challenge_count)
   )
-  p "Challenge Created"
 end
 
-20.times do
-  UserChallenge.create(
-    user_id: rand(User.all.count),
-    challenge_id: rand(Challenge.all.count)
-  )
-  p "UserChallenge Created\n"
-end
+p "UserChallenges created"
 
-20.times do
-  Like.create(
-    user_id: rand(User.all.count),
-    challenge_id: rand(Challenge.all.count)
-  )
-  p "Like Created\n"
-end
+p "*"*30
